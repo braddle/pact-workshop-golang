@@ -6,5 +6,8 @@ RUN curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/do
 RUN tar xzf pact-1.88.81-linux-x86_64.tar.gz -C /
 ENV PATH $PATH:/pact/bin
 
+RUN apt update -y
+RUN apt install -y uuid
+
 CMD tail -f /dev/null
 

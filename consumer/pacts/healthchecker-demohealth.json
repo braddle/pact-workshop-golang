@@ -1,0 +1,53 @@
+{
+  "consumer": {
+    "name": "HealthChecker"
+  },
+  "provider": {
+    "name": "DemoHealth"
+  },
+  "interactions": [
+    {
+      "description": "A GET request for the services health",
+      "providerState": "The service is up and running",
+      "request": {
+        "method": "GET",
+        "path": "/health",
+        "headers": {
+          "Accept": "application/json",
+          "X-Request-Id": "123456789-qwerty"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "Status": "OK",
+          "boolean": false,
+          "float": 12.34,
+          "integer": 36
+        },
+        "matchingRules": {
+          "$.body.Status": {
+            "match": "type"
+          },
+          "$.body.boolean": {
+            "match": "type"
+          },
+          "$.body.float": {
+            "match": "type"
+          },
+          "$.body.integer": {
+            "match": "type"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

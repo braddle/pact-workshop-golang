@@ -1,0 +1,3 @@
+log_format: color
+database_url: sqlite:////tmp/pact_broker.sqlite3
+base_url: 'http://localhost:9393 http://broker:9393'

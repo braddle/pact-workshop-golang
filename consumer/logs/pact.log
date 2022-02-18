@@ -1,0 +1,79 @@
+I, [2022-02-18T16:28:26.375179 #147]  INFO -- : Registered expected interaction GET /health
+D, [2022-02-18T16:28:26.376252 #147] DEBUG -- : {
+  "description": "A GET request for the services health",
+  "providerState": "The service is up and running",
+  "request": {
+    "method": "GET",
+    "path": "/health",
+    "headers": {
+      "Accept": "application/json",
+      "X-Request-Id": "123456789-qwerty"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "Status": {
+        "json_class": "Pact::SomethingLike",
+        "contents": "OK"
+      },
+      "boolean": {
+        "json_class": "Pact::SomethingLike",
+        "contents": false
+      },
+      "float": {
+        "json_class": "Pact::SomethingLike",
+        "contents": 12.34
+      },
+      "integer": {
+        "json_class": "Pact::SomethingLike",
+        "contents": 36
+      }
+    }
+  },
+  "metadata": null
+}
+I, [2022-02-18T16:28:26.379959 #147]  INFO -- : Received request GET /health
+D, [2022-02-18T16:28:26.380701 #147] DEBUG -- : {
+  "path": "/health",
+  "query": "",
+  "method": "get",
+  "headers": {
+    "Host": "localhost:32865",
+    "User-Agent": "Go-http-client/1.1",
+    "Accept": "application/json",
+    "X-Request-Id": "123456789-qwerty",
+    "Accept-Encoding": "gzip",
+    "Version": "HTTP/1.1"
+  }
+}
+I, [2022-02-18T16:28:26.381653 #147]  INFO -- : Found matching response for GET /health
+D, [2022-02-18T16:28:26.382333 #147] DEBUG -- : {
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "Status": {
+      "json_class": "Pact::SomethingLike",
+      "contents": "OK"
+    },
+    "boolean": {
+      "json_class": "Pact::SomethingLike",
+      "contents": false
+    },
+    "float": {
+      "json_class": "Pact::SomethingLike",
+      "contents": 12.34
+    },
+    "integer": {
+      "json_class": "Pact::SomethingLike",
+      "contents": 36
+    }
+  }
+}
+I, [2022-02-18T16:28:26.385727 #147]  INFO -- : Verifying - interactions matched
+I, [2022-02-18T16:28:26.389070 #147]  INFO -- : Cleared interactions

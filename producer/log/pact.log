@@ -1,0 +1,37 @@
+# Logfile created on 2022-02-18 17:06:20 +0000 by logger.rb/47272
+I, [2022-02-18T17:08:15.894596 #1476]  INFO -- : Running example 'Verifying a pact between HealthChecker and DemoHealth Given The service is up and running A GET request for the services health with GET /health returns a response which has status code 200'
+I, [2022-02-18T17:08:15.895885 #1476]  INFO -- : Sending GET request to path: "/health" with headers: {"HTTP_ACCEPT"=>"application/json", "HTTP_X_REQUEST_ID"=>"123456789-qwerty", "HTTP_X_PACT_ORIGINAL_HEADER_NAMES"=>"Accept,X-Request-Id", "X_PACT_PROVIDER_STATES"=>[{"name"=>"The service is up and running"}]}, see debug logs for body
+D, [2022-02-18T17:08:15.896583 #1476] DEBUG -- : body :
+I, [2022-02-18T17:08:15.929094 #1476]  INFO -- : Received response with status: 200, headers: {"Content-Length"=>"102", "Content-Type"=>"text/plain; charset=utf-8", "Date"=>"Fri, 18 Feb 2022 17:08:15 GMT"}, see debug logs for body
+D, [2022-02-18T17:08:15.929931 #1476] DEBUG -- : body: {"Status":"OK","message":"Testing Testing 123","integer":42,"float":3.141592653589793,"boolean":true}
+
+I, [2022-02-18T17:13:24.361728 #212]  INFO -- : Running example 'Verifying a pact between HealthChecker and DemoHealth Given The service is up and running A GET request for the services health with GET /health returns a response which has status code 200'
+I, [2022-02-18T17:13:24.363141 #212]  INFO -- : Sending GET request to path: "/health" with headers: {"HTTP_ACCEPT"=>"application/json", "HTTP_X_REQUEST_ID"=>"123456789-qwerty", "HTTP_X_PACT_ORIGINAL_HEADER_NAMES"=>"Accept,X-Request-Id", "X_PACT_PROVIDER_STATES"=>[{"name"=>"The service is up and running"}]}, see debug logs for body
+D, [2022-02-18T17:13:24.363942 #212] DEBUG -- : body :
+I, [2022-02-18T17:13:24.397959 #212]  INFO -- : Received response with status: 200, headers: {"Content-Length"=>"102", "Content-Type"=>"text/plain; charset=utf-8", "Date"=>"Fri, 18 Feb 2022 17:13:24 GMT"}, see debug logs for body
+D, [2022-02-18T17:13:24.400554 #212] DEBUG -- : body: {"Status":"OK","message":"Testing Testing 123","integer":42,"float":3.141592653589793,"boolean":true}
+
+I, [2022-02-18T17:14:10.878686 #346]  INFO -- : Running example 'Verifying a pact between HealthChecker and DemoHealth Given The service is up and running A GET request for the services health with GET /health returns a response which has status code 200'
+I, [2022-02-18T17:14:10.879862 #346]  INFO -- : Sending GET request to path: "/health" with headers: {"HTTP_ACCEPT"=>"application/json", "HTTP_X_REQUEST_ID"=>"123456789-qwerty", "HTTP_X_PACT_ORIGINAL_HEADER_NAMES"=>"Accept,X-Request-Id", "X_PACT_PROVIDER_STATES"=>[{"name"=>"The service is up and running"}]}, see debug logs for body
+D, [2022-02-18T17:14:10.880511 #346] DEBUG -- : body :
+I, [2022-02-18T17:14:10.907663 #346]  INFO -- : Received response with status: 200, headers: {"Content-Length"=>"102", "Content-Type"=>"text/plain; charset=utf-8", "Date"=>"Fri, 18 Feb 2022 17:14:10 GMT"}, see debug logs for body
+D, [2022-02-18T17:14:10.908844 #346] DEBUG -- : body: {"Status":"OK","message":"Testing Testing 123","integer":42,"float":3.141592653589793,"boolean":true}
+
+I, [2022-02-19T11:07:53.211690 #218]  INFO -- : Running example 'Verifying a pact between HealthChecker and DemoHealth Given The service is up and running A GET request for the services health with GET /health returns a response which has status code 200'
+I, [2022-02-19T11:07:53.213940 #218]  INFO -- : Sending GET request to path: "/health" with headers: {"HTTP_ACCEPT"=>"application/json", "HTTP_X_REQUEST_ID"=>"123456789-qwerty", "HTTP_X_PACT_ORIGINAL_HEADER_NAMES"=>"Accept,X-Request-Id", "X_PACT_PROVIDER_STATES"=>[{"name"=>"The service is up and running"}]}, see debug logs for body
+D, [2022-02-19T11:07:53.214793 #218] DEBUG -- : body :
+I, [2022-02-19T11:07:53.244139 #218]  INFO -- : Received response with status: 200, headers: {"Content-Length"=>"90", "Content-Type"=>"text/plain; charset=utf-8", "Date"=>"Sat, 19 Feb 2022 11:07:53 GMT"}, see debug logs for body
+D, [2022-02-19T11:07:53.245251 #218] DEBUG -- : body: {"Status":"OK","message":"Testing Testing 123","integer":36,"float":12.34,"boolean":true}
+
+I, [2022-02-19T11:14:36.456278 #344]  INFO -- : Running example 'Verifying a pact between HealthChecker and DemoHealth Given The service is up and running A GET request for the services health with GET /health returns a response which has status code 200'
+I, [2022-02-19T11:14:36.457207 #344]  INFO -- : Sending GET request to path: "/health" with headers: {"HTTP_ACCEPT"=>"application/json", "HTTP_X_REQUEST_ID"=>"123456789-qwerty", "HTTP_X_PACT_ORIGINAL_HEADER_NAMES"=>"Accept,X-Request-Id", "X_PACT_PROVIDER_STATES"=>[{"name"=>"The service is up and running"}]}, see debug logs for body
+D, [2022-02-19T11:14:36.457948 #344] DEBUG -- : body :
+I, [2022-02-19T11:14:36.489865 #344]  INFO -- : Received response with status: 200, headers: {"Content-Length"=>"90", "Content-Type"=>"text/plain; charset=utf-8", "Date"=>"Sat, 19 Feb 2022 11:14:36 GMT"}, see debug logs for body
+D, [2022-02-19T11:14:36.490842 #344] DEBUG -- : body: {"Status":"OK","message":"Testing Testing 123","integer":36,"float":12.34,"boolean":true}
+
+I, [2022-02-19T11:14:57.369693 #466]  INFO -- : Running example 'Verifying a pact between HealthChecker and DemoHealth Given The service is up and running A GET request for the services health with GET /health returns a response which has status code 200'
+I, [2022-02-19T11:14:57.371044 #466]  INFO -- : Sending GET request to path: "/health" with headers: {"HTTP_ACCEPT"=>"application/json", "HTTP_X_REQUEST_ID"=>"123456789-qwerty", "HTTP_X_PACT_ORIGINAL_HEADER_NAMES"=>"Accept,X-Request-Id", "X_PACT_PROVIDER_STATES"=>[{"name"=>"The service is up and running"}]}, see debug logs for body
+D, [2022-02-19T11:14:57.371820 #466] DEBUG -- : body :
+I, [2022-02-19T11:14:57.400255 #466]  INFO -- : Received response with status: 200, headers: {"Content-Length"=>"90", "Content-Type"=>"text/plain; charset=utf-8", "Date"=>"Sat, 19 Feb 2022 11:14:57 GMT"}, see debug logs for body
+D, [2022-02-19T11:14:57.401386 #466] DEBUG -- : body: {"Status":"OK","message":"Testing Testing 123","integer":36,"float":12.34,"boolean":true}
+

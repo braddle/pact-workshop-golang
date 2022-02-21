@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
-	"math"
 	"net/http"
 	"os"
 )
@@ -23,11 +22,12 @@ func main() {
 		hc := HealthCheck{
 			Status:  "OK",
 			Message: "Testing Testing 123",
-			Integer: 42,
-			Float:   math.Pi,
+			Integer: 36,
+			Float:   12.34,
 			Boolean: true,
 		}
 
+		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(hc)
 	})

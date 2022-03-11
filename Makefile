@@ -1,7 +1,7 @@
-up:
-	docker-compose up -d
+start:
+	docker compose up -d --force-recreate --build
 
-down:
+stop:
 	docker-compose down
 
 jump-to-consumer:

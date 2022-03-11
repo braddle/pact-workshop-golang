@@ -15,6 +15,7 @@ func TestHealthCheck(t *testing.T) {
 	pact := &dsl.Pact{
 		Consumer: "HealthChecker",
 		Provider: "DemoHealth",
+		LogLevel: "NONE",
 	}
 	defer pact.Teardown()
 

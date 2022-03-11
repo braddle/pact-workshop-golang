@@ -10,6 +10,7 @@ import (
 func TestHealth(t *testing.T) {
 	pact := dsl.Pact{
 		Provider: "DemoHealth",
+		LogLevel: "NONE",
 	}
 
 	_, err := pact.VerifyProvider(

@@ -137,7 +137,7 @@ This will run the tests against the Health Check Client and if they are successf
 ```
 
 ##### Step by Step Video
-![Tutorial video on writing consumer pact tests](https://www.youtube.com/watch?v=SCndSvUBlnw)
+[![Tutorial video on writing consumer pact tests](https://img.youtube.com/vi/SCndSvUBlnw/0.jpg)](https://www.youtube.com/watch?v=SCndSvUBlnw)
 
 The testing of our Consumer is now complete but we have not shared the Pact file (The Contract) with the Producer. 
 This is where we use the Pact Broker.
@@ -165,10 +165,11 @@ or the [Provider](http://localhost:9393/pacticipants/DemoHealth) look at the [Ne
 
 ![Screen shot of the pact broker network graph between the Health Client and the Health endpoint](docs/network-graph.png)
 
-![Video tutorial of sending Pact file to a Pact Broker](https://youtu.be/y-jW8dInFc4)
-
 For the Lab we are running our own Pact Broker in Docker. 
 If you do not want to administer you own Pact Broker you can use [Pactflow](https://pactflow.io/).
+
+##### Step by Step Video
+[![Tutorial video on writing consumer pact tests](https://img.youtube.com/vi/y-jW8dInFc4/0.jpg)](https://www.youtube.com/watch?v=y-jW8dInFc4)
 
 ##### Can I Deploy
 
@@ -212,6 +213,9 @@ Once the tests have run go back to the [Pact Broker](http://localhost:9393) and 
 updated.
 
 ![Screenshot of the verified Pact on the Broker](docs/broker-verified.png)
+
+##### Step by Step Video
+[![Tutorial video on writing consumer pact tests](https://img.youtube.com/vi/9uRP6EzLx3w/0.jpg)](https://www.youtube.com/watch?v=9uRP6EzLx3w)
 
 ##### Can I Deploy
 

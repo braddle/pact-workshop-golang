@@ -2,11 +2,11 @@
 
 ## Introduction 
 
-The purpose of this Lab exercise it to introduce you to Consuner Driven Contract testing with [Pact](https://pact.io/).
+The purpose of this Lab exercise it to introduce you to Consumer Driven Contract testing with [Pact](https://pact.io/).
 
 ### What we will cover
 
-Duing this lab we will look at Using Pact to create a contract between a HTTP REST API and a client that uses the API. 
+During this lab we will look at Using Pact to create a contract between a HTTP REST API and a client that uses the API. 
 The Lab is broken down into 3 parts:
 
 1. We will look at concepts and language introduced by Pact. 
@@ -15,7 +15,8 @@ The Lab is broken down into 3 parts:
 
 ### Things we will not be covering
 
-- Using Data Providers to populate a datasource to enable dynamic testing of the Provider
+- Using [Provider State](https://docs.pact.io/getting_started/terminology#provider-state) to populate a datasource to 
+  enable dynamic testing of the Provider
 - Pact Contracts for Async communication
 - Setting up Pact in a CI/CD Pipeline
 
@@ -38,7 +39,7 @@ To start the docker containers using the following Make target
 make start
 ```
 
-This will start 4 seperate contains:
+This will start 4 separate containers:
 
 1. Running a small HTTP REST API with two endpoints `/health` & `/thing/{id}`. (The Provider)
 2. A Go environment with an example API client to interact with the `/health` endpoint
@@ -49,9 +50,11 @@ This will start 4 seperate contains:
 
 #### The Consumer
 
-The Consumer is the code that interact with an API. I have already created an [example Consumer](consumer/health.go) for 
-the `/health` endpoint of our Provider. The [code](consumer/health.go) is commented to explain what is happening at all 
-key point of execution, spend a few minutes exploring it to familiarise yourself with it before continuing. 
+The [Consumer](https://docs.pact.io/getting_started/terminology#service-consumer) is the code that interacts with an API. 
+
+I have already created an [example Consumer](consumer/health.go) for the `/health` endpoint of our Provider. 
+The [code](consumer/health.go) is commented to explain what is happening at all key point of execution, spend a few 
+minutes exploring it to familiarise yourself with it before continuing. 
 
 The code assumes that Making the HTTP call and decoding the JSON response is successful because you would not use Pact 
 to test these bits of the code. Handling these errors should be covered by separate unit tests.
@@ -133,14 +136,15 @@ This will run the tests against the Health Check Client and if they are successf
 }
 ```
 
+##### Step by Step Video
+![Tutorial video on writing consumer pact tests](https://www.youtube.com/watch?v=SCndSvUBlnw)
+
 The testing of our Consumer is now complete but we have not shared the Pact file (The Contract) with the Producer. 
 This is where we use the Pact Broker.
 
-_Note_ I have also created a [video](https://www.youtube.com/watch?v=SCndSvUBlnw) where I walk through the step by step process to test a consumer with Pact 
+#### Pact Broker
 
-## Pact Broker
-
-The [Pact Broker](http://localhost:9393/) is the repository for sharing Pact files between Consumers and Producers.
+The [Pact Broker](https://docs.pact.io/getting_started/sharing_pacts) is the repository for sharing Pact files between Consumers and Producers.
 
 The home page of the [Pact Broker](http://localhost:9393/) shows a list of all Pacts that have been register and their status.
 
@@ -161,11 +165,61 @@ or the [Provider](http://localhost:9393/pacticipants/DemoHealth) look at the [Ne
 
 ![Screen shot of the pact broker network graph between the Health Client and the Health endpoint](docs/network-graph.png)
 
+![Video tutorial of sending Pact file to a Pact Broker](https://youtu.be/y-jW8dInFc4)
+
 For the Lab we are running our own Pact Broker in Docker. 
-If you do not want to administer you own Pact Broker you can use [Pactflow](https://pactflow.io/). 
+If you do not want to administer you own Pact Broker you can use [Pactflow](https://pactflow.io/).
 
-#### Can I Deploy
+##### Can I Deploy
 
-## Producer
+Now that we have some Consumer tests that produce a contract we need to know that our Producer meets the contract before
+we are safe to deploy our Consumer that can be done with the `Can I Deploy` feature of the
+[Pact standalone executables](https://github.com/pact-foundation/pact-ruby-standalone)
 
-`make jump-to-consumer`
+Before we do anything with the Producer let see if the we should deploy the Consumer. Try running the following command 
+on the Consumer Docker container
+
+```shell
+make can-deploy-health
+```
+
+This should return a non-zero exit code saying the Pact has not been verified
+
+![Screen shot of a failure response from can-i-deploy](docs/failed-can-i-deploy.png)
+
+#### Producer
+
+The [Producer](https://docs.pact.io/getting_started/terminology#service-provider) in the HTTP API providing the endpoints 
+defined in the Pact File. 
+
+Now that we have push our Pact File to the Pact Broker we can test the contract against the implementation. To run the 
+test you first need to be on the Producer Docker container, you can do that by running the command below:
+
+```shell
+make jump-to-producer
+```
+
+We can now look at our [Producer Tests](producer/health_test.go). Take some time to look over the test code, the 
+Provider tests a pretty small there is not much to setup because most information for them to run is in the Pact file.
+
+To run the Producer tests for the `/health` endpoint run the follwing command on the Producer Docker container
+
+```shell
+make test-health
+```
+
+Once the tests have run go back to the [Pact Broker](http://localhost:9393) and see how the state of the Pact has been 
+updated.
+
+##### Can I Deploy
+
+Now that we have verified the Pact file from the Producer let see if the `Can I Deploy` tool thinks we can deploy the 
+Consumer code. Try running the following command on the Consumer Docker container
+
+```shell
+make can-deploy-health
+```
+
+
+
+

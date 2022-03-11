@@ -211,6 +211,8 @@ make test-health
 Once the tests have run go back to the [Pact Broker](http://localhost:9393) and see how the state of the Pact has been 
 updated.
 
+![Screenshot of the verified Pact on the Broker](docs/broker-verified.png)
+
 ##### Can I Deploy
 
 Now that we have verified the Pact file from the Producer let see if the `Can I Deploy` tool thinks we can deploy the 
@@ -219,6 +221,10 @@ Consumer code. Try running the following command on the Consumer Docker containe
 ```shell
 make can-deploy-health
 ```
+
+This now returns a zero exit code saying that the Pact is verified
+
+![Screen shot of a success response from can-i-deploy](docs/successful-can-i-deploy.png)
 
 
 

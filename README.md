@@ -136,9 +136,35 @@ This will run the tests against the Health Check Client and if they are successf
 The testing of our Consumer is now complete but we have not shared the Pact file (The Contract) with the Producer. 
 This is where we use the Pact Broker.
 
+_Note_ I have also created a [video](https://www.youtube.com/watch?v=SCndSvUBlnw) where I walk through the step by step process to test a consumer with Pact 
+
 ## Pact Broker
 
-[pact broker](http://localhost:9393/)
+The [Pact Broker](http://localhost:9393/) is the repository for sharing Pact files between Consumers and Producers.
+
+The home page of the [Pact Broker](http://localhost:9393/) shows a list of all Pacts that have been register and their status.
+
+When you first load the [Pact Broker](http://localhost:9393/) you should see an Example Pact. Lets upload the Pact file 
+we created for the Health Checker to the Broker. To does this you can use to command below on the Consumer Docker 
+container.
+
+```shell
+make publish-health-pact
+```
+
+This will push the pact file to the broker, and it should not be visible on the [Pact Broker home page](http://localhost:9393/).
+
+![Screen shot of the pact broker homepage showing the example and healthchecker pacts](docs/broker.png)
+
+Before moving on explore the Pact Broker click through to the [Consumer](http://localhost:9393/pacticipants/HealthChecker) 
+or the [Provider](http://localhost:9393/pacticipants/DemoHealth) look at the [Network Graph](http://localhost:9393/pacticipants/HealthChecker/network)
+
+![Screen shot of the pact broker network graph between the Health Client and the Health endpoint](docs/network-graph.png)
+
+For the Lab we are running our own Pact Broker in Docker. 
+If you do not want to administer you own Pact Broker you can use [Pactflow](https://pactflow.io/). 
+
+#### Can I Deploy
 
 ## Producer
 

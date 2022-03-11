@@ -24,7 +24,7 @@ func TestHealthCheck(t *testing.T) {
 	const requestID = "123456789-qwerty"
 
 	pact.AddInteraction().
-		Given("The service is up and running"). // Providing the expectations for the Provider to setup
+		Given("The service is up and running").                 // Providing the expectations for the Provider to setup
 		UponReceiving("A GET request for the services health"). // Describing the request that will be made
 		WithRequest(
 			// Configuring the request you expect to make to the Pact Server

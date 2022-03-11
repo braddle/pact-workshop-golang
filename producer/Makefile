@@ -1,2 +1,2 @@
 test-health:
-	go test ./health_test.go
+	go test -v ./health_test.go

@@ -1,0 +1,7 @@
+# Logfile created on 2022-03-11 15:43:02 +0000 by logger.rb/47272
+I, [2022-03-11T15:43:52.435796 #2182]  INFO -- : Running example 'Verifying a pact between Health Checker Client and Demo Health Endpoint Given The service is up and running A GET request for the services health with GET /health returns a response which has status code 200'
+I, [2022-03-11T15:43:52.439215 #2182]  INFO -- : Sending GET request to path: "/health" with headers: {"HTTP_ACCEPT"=>"application/json", "HTTP_X_REQUEST_ID"=>"123456789-qwerty", "HTTP_X_PACT_ORIGINAL_HEADER_NAMES"=>"Accept,X-Request-Id", "X_PACT_PROVIDER_STATES"=>[{"name"=>"The service is up and running"}]}, see debug logs for body
+D, [2022-03-11T15:43:52.440139 #2182] DEBUG -- : body :
+I, [2022-03-11T15:43:52.574074 #2182]  INFO -- : Received response with status: 200, headers: {"Content-Length"=>"90", "Content-Type"=>"application/json", "Date"=>"Fri, 11 Mar 2022 15:43:52 GMT"}, see debug logs for body
+D, [2022-03-11T15:43:52.575360 #2182] DEBUG -- : body: {"Status":"OK","message":"Testing Testing 123","integer":36,"float":12.34,"boolean":true}
+

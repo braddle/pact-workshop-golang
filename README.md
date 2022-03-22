@@ -232,5 +232,60 @@ This now returns a zero exit code saying that the Pact is verified
 
 ## Task
 
+Create an API client library for the `/thing/{id}` endpoint of the producer API
+
+When creating a test for successful request to the endpoint `/thing/1234`. Dont make the client expect all of the content 
+that the producer API provides straight away.
+
+First create a test that just looks at the some Scalar types.
+### Successful Request
+```json
+{
+  "id": "987654321",
+  "name": "Testing",
+  "integer": 1357,
+  "float": 4.56,
+  "boolean": false,
+  "smaller_thing": {
+    "title": "",
+    "age": 0
+  },
+  "strings": [
+    "one",
+    "two",
+    "three"
+  ],
+  "integers": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "smaller_things": [
+    {
+      "title": "First",
+      "age": 3
+    },
+    {
+      "title": "Second",
+      "age": 2
+    },
+    {
+      "title": "Third",
+      "age": 1
+    }
+  ]
+}
+```
+
+### Unsucessful Request
+
+```json
+{
+  "code": 404,
+  "status": "NotFound",
+  "message": "Could not find thing with id: 123456789"
+}
+```
 
 

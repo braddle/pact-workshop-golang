@@ -89,6 +89,7 @@ fabric.properties
 **/vendor/
 
 consumer/pacts/*.json
-consumer/logs
+**/logs
+**/log
 
 .DS_Store

@@ -146,9 +146,9 @@ This is where we use the Pact Broker.
 
 The [Pact Broker](https://docs.pact.io/getting_started/sharing_pacts) is the repository for sharing Pact files between Consumers and Producers.
 
-The home page of the [Pact Broker](http://localhost:9393/) shows a list of all Pacts that have been register and their status.
+The home page of the [Local Pact Broker](http://localhost:9393/) shows a list of all Pacts that have been register and their status.
 
-When you first load the [Pact Broker](http://localhost:9393/) you should see an Example Pact. Lets upload the Pact file 
+When you first load the [Local Pact Broker](http://localhost:9393/) you should see an Example Pact. Lets upload the Pact file 
 we created for the Health Checker to the Broker. To does this you can use to command below on the Consumer Docker 
 container.
 

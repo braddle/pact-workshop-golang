@@ -2,7 +2,15 @@
 
 ## Introduction 
 
-The purpose of this Lab exercise it to introduce you to Consumer Driven Contract testing with [Pact](https://pact.io/).
+The purpose of this Lab exercise it to introduce you to Consumer Driven Contract testing using [Pact](https://pact.io/).
+
+Pact is testing tool that uses contracts to ensure the communiocation between integrations in your application. 
+The Pact File (Contract) is produced by test written but the Consumer and shared with the Provider via a Pact Broker 
+(Centralized Repository for Pact Files).
+
+Although this workshop uses Golang Pact is available  in a [number of different languages](https://docs.pact.io/implementation_guides/cli).
+All languages produce Pact Files in the same format so the Consumer and Producer can be written in different languages and
+still communicate about the contract via the Pact File and Broker.
 
 ### What we will cover
 
@@ -52,14 +60,14 @@ This will start 4 separate containers:
 
 The [Consumer](https://docs.pact.io/getting_started/terminology#service-consumer) is the code that interacts with an API. 
 
-I have already created an [example Consumer](consumer/health.go) for the `/health` endpoint of our Provider. 
-The [code](consumer/health.go) is commented to explain what is happening at all key point of execution, spend a few 
+I have already created an [example Consumer](consumer/health/health.go) for the `/health` endpoint of our Provider. 
+The [code](consumer/health/health.go) is commented to explain what is happening at all key point of execution, spend a few 
 minutes exploring it to familiarise yourself with it before continuing. 
 
 The code assumes that Making the HTTP call and decoding the JSON response is successful because you would not use Pact 
 to test these bits of the code. Handling these errors should be covered by separate unit tests.
 
-The [tests](consumer/health_test.go) that I used to drive out the implementation cover the expected response from the 
+The [tests](consumer/health/health_test.go) that I used to drive out the implementation cover the expected response from the 
 `/health` endpoint when the service is running and healthy. The tests are commented to explain how to use Pacts 
 [Golang Test Framework](https://github.com/pact-foundation/pact-go). Why not read through the tests now before we start 
 to run them.
@@ -71,7 +79,7 @@ following Make target
 make jump-to-consumer
 ```
 
-To run the tests for the [Health Check Client](consumer/health.go) you can use the following command 
+To run the tests for the [Health Check Client](consumer/health/health.go) you can use the following command 
 
 ```shell
 make test-health 
@@ -232,12 +240,19 @@ This now returns a zero exit code saying that the Pact is verified
 
 ## Task
 
-Create an API client library for the `/thing/{id}` endpoint of the producer API
+Now it's your turn! 
 
-When creating a test for successful request to the endpoint `/thing/1234`. Dont make the client expect all of the content 
-that the producer API provides straight away.
+### Create a Client Library (Consumer)
 
-First create a test that just looks at the some Scalar types.
+The first task is to [test drive](consumer/thing/thing_test.go) the Creation of an [API client library](consumer/thing/thing.go) 
+for the `/thing/{id}` endpoint of the producer API.
+
+The Client should cover the 200 (OK) & 404 (Not Found) cases.
+
+Start with successful request to the endpoint `/thing/1234`. Rather than creating a test for the entire response straight away
+consider building up the test
+
+First create a test that looks for some of the Scalar types in the response.
 ### Successful Request
 ```json
 {

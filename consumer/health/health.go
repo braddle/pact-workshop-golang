@@ -8,7 +8,8 @@ import (
 )
 
 type ResponseWithPactExamples struct {
-	Status  string  `json:"Status" pact:"example=NOT OK"` // pact tags are used to configure example response values to be used in tests
+	// pact tags are used to configure example response values to be used in tests
+	Status  string  `json:"Status" pact:"example=NOT OK"`
 	Integer int64   `json:"integer" pact:"example=36"`
 	Float   float64 `json:"float" pact:"example=12.34"`
 	Boolean bool    `json:"boolean" pact:"example=false"`
@@ -27,10 +28,13 @@ type HealthChecker struct {
 
 // Check makes a HTTP call to the Producers healthcheck endpoint /health
 func (c HealthChecker) Check(ctx context.Context) ResponseWithPactExamples {
-	url := fmt.Sprintf("%s/health", c.host) // Creating the URL to request provide host's /health endpoint
+	// Creating the URL to request provide host's /health endpoint
+	url := fmt.Sprintf("%s/health", c.host)
 	r, _ := http.NewRequest(http.MethodGet, url, nil)
-	r.Header.Add("Accept", "application/json")                               // Creating the require Accept header to inform the provider we require a JSON response
-	r.Header.Add("X-Request-Id", fmt.Sprintf("%v", ctx.Value("request-id"))) // Forwarding the required X-Request-Id
+	// Creating the require Accept header to inform the provider we require a JSON response
+	r.Header.Add("Accept", "application/json")
+	// Forwarding the required X-Request-Id
+	r.Header.Add("X-Request-Id", fmt.Sprintf("%v", ctx.Value("request-id")))
 
 	client := http.Client{}
 

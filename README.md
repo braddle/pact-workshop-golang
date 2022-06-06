@@ -30,11 +30,90 @@ The Lab is broken down into 3 parts:
 
 ### Prerequisite
 
-- Docker
-- Docker-Compose
+- [Docker](https://www.docker.com/products/docker-desktop/)
+- [Docker-Compose](https://docs.docker.com/compose/)
 - Knowledge of how to create and interact with HTTP REST APIs in Golang
   
 ## Our Project
+
+We have already created a small HTTP Producer API that has two endpoints. 
+
+The first is a health check endpoint (/health) that returns a small JSON object with hardcoded values.
+
+```shell
+curl http://localhost:8082/health
+```
+
+```json
+{
+  "Status": "OK",
+  "message": "Testing Testing 123",
+  "integer": 36,
+  "float": 12.34,
+  "boolean": true
+}
+
+```
+
+The second endpoint enables you to retrieve a single Thing (/thing/{id}) if you request the id `123456789` there is not 
+a thing stored against that ID and a HTTP 404 - Not Found will be returned.
+
+```shell
+curl http://localhost:8082/thing/123456789
+```
+
+```json
+{
+  "code": 404,
+  "status": "NotFound",
+  "message": "Could not find thing with id: 123456789"
+}
+```
+
+If you request a thing by any other ID a larger hard coded JSON 
+
+```shell
+curl http://localhost:8082/thing/987654321
+```
+
+```json
+{
+  "id": "987654321",
+  "name": "Testing",
+  "integer": 1357,
+  "float": 4.56,
+  "boolean": false,
+  "smaller_thing": {
+    "title": "",
+    "age": 0
+  },
+  "strings": [
+    "one",
+    "two",
+    "three"
+  ],
+  "integers": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "smaller_things": [
+    {
+      "title": "First",
+      "age": 3
+    },
+    {
+      "title": "Second",
+      "age": 2
+    },
+    {
+      "title": "Third",
+      "age": 1
+    }
+  ]
+}
+```
 
 The code we will look at, and you will create is setup to run in Docker containers to allow you to concentrate on looking
 a Pact and not having to install and configure you own machine to run Pact.

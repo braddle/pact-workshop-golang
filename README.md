@@ -1,25 +1,18 @@
-# Consumer Driven Contract Testing with Pact Lab (Golang)
+# Consumer Driven Contract Testing with Pact Workshop (Golang)
 
 ## Introduction 
 
-The purpose of this Lab exercise it to introduce you to Consumer Driven Contract testing using [Pact](https://pact.io/).
+### Purpose
 
-Pact is testing tool that uses contracts to ensure the communication between integrations in your application. 
-The Pact File (Contract) is produced by test written but the Consumer and shared with the Provider via a Pact Broker 
-(Centralized Repository for Pact Files).
-
-Although this workshop uses Golang Pact is available in a [number of different languages](https://docs.pact.io/implementation_guides/cli).
-All languages produce Pact Files in the same format so the Consumer and Producer can be written in different languages and
-still communicate about the contract via the Pact File and Broker.
-still communicate about the contract via the Pact File and Broker.
+The purpose of this Workshop exercise it to introduce you to Consumer Driven Contract testing using [Pact](https://pact.io/).
 
 ### What we will cover
 
-During this lab we will look at Using Pact to create a contract between an HTTP REST API and a client that consumes the 
-API. The Lab is broken down into 3 parts:
+During this workshop we will look at Using Pact to create a contract between an HTTP REST API and a client that consumes 
+the API. The workshop is broken down into 3 parts:
 
 1. We will look at concepts and language introduced by Pact. 
-2. We will look at a small example project to explore how to use Pact with Golang. 
+2. We will walk through a small example project to explore how to use Pact with Golang. 
 3. You will create a contract for a single GET API endpoint.
 
 ### Things we will not be covering
@@ -35,6 +28,17 @@ API. The Lab is broken down into 3 parts:
 - [Docker-Compose](https://docs.docker.com/compose/)
 - Knowledge of how to create and interact with HTTP REST APIs in Golang
   
+## What is Pact?
+
+Pact is testing tool that uses contracts to ensure the communication between services in your application.
+The [Pact File](https://docs.pact.io/getting_started/terminology#pact-file) (Contract) is produced by test written for
+the [Consumer](https://docs.pact.io/getting_started/terminology#service-consumer) and shared with the [Provider](https://docs.pact.io/getting_started/terminology#service-provider)
+via a [Pact Broker](https://docs.pact.io/getting_started/terminology#pact-broker) (Centralized Repository for Pact Files).
+
+Although this workshop uses Golang Pact is available in a [number of different languages](https://docs.pact.io/implementation_guides/cli).
+All languages produce Pact Files in the same format so the Consumer and Producer can be written in different languages and
+still communicate about the contract via the Pact File and Broker.
+
 ## Our Project
 
 The code we will look at, and you will create is set up to run in Docker containers to allow you to concentrate on looking
@@ -55,8 +59,8 @@ docker compose up -d --force-recreate --build
 
 This will start 4 separate containers:
 
-1. Running a small HTTP REST API with two endpoints `/health` & `/thing/{id}`. (The Provider)
-2. A Go environment with an example API client to interact with the `/health` endpoint
+1. Running a small demo application exposing HTTP REST API with two endpoints `/health` & `/thing/{id}`. (The Provider)
+2. A Go environment with an example API client (The Consumer) to interact with the `/health` endpoint
 3. A Pact Broker
 4. Database for the Pact Broker (PostgreSQL)
 

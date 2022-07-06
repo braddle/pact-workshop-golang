@@ -20,7 +20,7 @@ func setup() {
 	// NOTE: If you are running multiple tests again the same Provider create one instance dls.Pact that is used by all tests.
 	pact = &dsl.Pact{
 		Consumer: "Health Checker Client", // The name of the consumer using the API. In this cade out Health Checker Client
-		Provider: "Demo Health Endpoint",  // The name of the Provider we testing against
+		Provider: "Demo App",              // The name of the Provider we testing against
 		LogLevel: "NONE",
 		PactDir:  "../pacts",
 	}

@@ -11,6 +11,7 @@ The Pact File (Contract) is produced by test written but the Consumer and shared
 Although this workshop uses Golang Pact is available in a [number of different languages](https://docs.pact.io/implementation_guides/cli).
 All languages produce Pact Files in the same format so the Consumer and Producer can be written in different languages and
 still communicate about the contract via the Pact File and Broker.
+still communicate about the contract via the Pact File and Broker.
 
 ### What we will cover
 
@@ -188,7 +189,7 @@ go test -v ./health
 ```
 
 This will run the tests against the Health Check Client and if they are successful a 
-[Pact File](consumer/pacts/health_checker_client-demo_health_endpoint.json) will be created. 
+[Pact File](consumer/pacts/health_checker_client-demo_app.json) will be created. 
 It should look something like this:
 
 ```json
@@ -197,7 +198,7 @@ It should look something like this:
     "name": "Health Checker Client"
   },
   "provider": {
-    "name": "Demo Health Endpoint"
+    "name": "Demo App"
   },
   "interactions": [
     {
@@ -270,7 +271,7 @@ make publish-health-pact
 ```
 
 ```shell
-pact-broker publish pacts/health_checker_client-demo_health_endpoint.json --consumer-app-version $$(uuid) --broker-base-url http://broker:9393
+pact-broker publish pacts/health_checker_client-demo_app.json --consumer-app-version $$(uuid) --broker-base-url http://broker:9393
 ```
 
 This will push the Pact File to the Pact Broker, and it should not be visible on the 
@@ -300,7 +301,7 @@ Before we do anything with the Producer let see if we should deploy the Consumer
 on the Consumer Docker container
 
 ```shell
-make can-deploy-health
+make can-i-deploy-health
 ```
 
 or
@@ -384,12 +385,96 @@ for the `/thing/{id}` endpoint of the producer API.
 
 The Client should cover the 200 (OK) & 404 (Not Found) cases.
 
+#### Unsucessful Request (HTTP 404 - Not Found)
+
+Start with an unsuccessful response to the endpoint `/thing/123456789` check that the status returned is HTTP 404 - Not
+Found and that content in the fields match.
+
+```json
+{
+  "code": 404,
+  "status": "NotFound",
+  "message": "Could not find thing with id: 123456789"
+}
+```
+
+You can run tests for just the Thing Client using the following Make target 
+
+````shell
+make test-thing
+````
+
+or 
+
+```shell
+go test -v ./thing
+```
+
+once you have a working test push the Pact File (Contract) to the Pact Broker using the following Make target
+
+```shell
+publish-thing-pact
+```
+
+or
+
+```shell
+pact-broker publish pacts/thing_client-demo_app.json --consumer-app-version $$(uuid) --broker-base-url http://broker:9393
+```
+
+you can now check if the client is deployable (it should not be yet the contract has not been verified by the producer) 
+with the following Make target
+
+```shell
+make can-i-deploy-thing
+```
+
+or
+
+```shell
+pact-broker can-i-deploy --pacticipant "Thing Client" --broker-base-url http://broker:9393 --latest
+```
+
+now verify the Pact Contract on the Producer with the following Make target
+
+```shell
+make test-demo-app
+```
+
+or
+
+```shell
+go test -v ./app_test.go
+```
+
+Now recheck whether the Consumer can be deployed and you can also check that the Producer can be deployed
+
+```shell
+make can-i-deploy-demo-app
+```
+
+or
+
+```shell
+pact-broker can-i-deploy --pacticipant "Demo App" --broker-base-url http://broker:9393 --latest
+```
+
+Before you move on and start testing the successful request go back to you Not Found test and add a field that does not 
+exist to you tests. Get the test to pass on the consumer. Push the Pact Contract to the Broker and run the Producer tests.
+Check the result of can I deploy for the Consumer and Producer. _Note: fix the test before you start the successful 
+request testing._
+
+#### Sucessful Request (HTTP 200 - OK)
+
 Start with successful request to the endpoint `/thing/1234`. Rather than creating a test for the entire response straight away
 consider building up the test
 
-First create a test that looks for some of the Scalar types in the response.
-
-### Successful Request
+First create a test that looks for some Scalar types in the response. The add test to cover the variable array fields.
+Try using the various different ways to creating test content for the Consumer tests:
+  - Example Tags
+  - Keys and Matcher Values
+  - Keys and Values
+  - Struct with Values set
 
 ```json
 {
@@ -429,15 +514,3 @@ First create a test that looks for some of the Scalar types in the response.
   ]
 }
 ```
-
-### Unsucessful Request
-
-```json
-{
-  "code": 404,
-  "status": "NotFound",
-  "message": "Could not find thing with id: 123456789"
-}
-```
-
-

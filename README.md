@@ -4,21 +4,20 @@
 
 ### Purpose
 
-The purpose of this Workshop exercise it to introduce you to Consumer Driven Contract testing using [Pact](https://pact.io/).
+The purpose of this Workshop is to introduce you to Consumer Driven Contract testing using [Pact](https://pact.io/).
 
 ### What we will cover
 
-During this workshop we will look at Using Pact to create a contract between an HTTP REST API and a client that consumes 
-the API. The workshop is broken down into 3 parts:
+During this workshop we will use Pact to create a contract between an HTTP REST API and a client that consumes the API. 
+The workshop is broken down into 3 parts:
 
 1. We will look at concepts and language introduced by Pact. 
-2. We will walk through a small example project to explore how to use Pact with Golang. 
-3. You will create a contract for a single GET API endpoint.
+2. We will walk through a small example to explore how to use Pact in Go. 
+3. You will create a client for a single GET API endpoint using Pact to drive out the tests.
 
 ### Things we will not be covering
 
-- Using [Provider State](https://docs.pact.io/getting_started/terminology#provider-state) to populate a datasource to 
-  enable dynamic testing of the Provider
+- Using [Provider State](https://docs.pact.io/getting_started/terminology#provider-state) to populate a datasource to enable dynamic testing of the Provider
 - Pact Contracts for Async communication
 - Setting up Pact in a CI/CD Pipeline
 
@@ -31,9 +30,9 @@ the API. The workshop is broken down into 3 parts:
 ## What is Pact?
 
 Pact is testing tool that uses contracts to ensure the communication between services in your application.
-The [Pact File](https://docs.pact.io/getting_started/terminology#pact-file) (Contract) is produced by test written for
+The [Pact File](https://docs.pact.io/getting_started/terminology#pact-file) (Contract) is produced by tests written for
 the [Consumer](https://docs.pact.io/getting_started/terminology#service-consumer) and shared with the [Provider](https://docs.pact.io/getting_started/terminology#service-provider)
-via a [Pact Broker](https://docs.pact.io/getting_started/terminology#pact-broker) (Centralized Repository for Pact Files).
+via a [Pact Broker](https://docs.pact.io/getting_started/terminology#pact-broker).
 
 Although this workshop uses Golang Pact is available in a [number of different languages](https://docs.pact.io/implementation_guides/cli).
 All languages produce Pact Files in the same format so the Consumer and Producer can be written in different languages and
@@ -46,7 +45,7 @@ at Pact and not having to install and configure you own machine to run Pact.
 
 ### Getting Started
 
-To start the docker containers using the following Make target
+To start the docker containers use the following Make target
 
 ```shell
 make start
@@ -66,10 +65,10 @@ This will start 4 separate containers:
 
 ### The API
 
-We have already created a small HTTP Producer API that has two endpoints. 
+We have already created a small HTTP API (Producer) that has two endpoints. 
 
 #### Health Check Endpoint
-The first is a health check endpoint (/health) that returns a small JSON object with hardcoded values.
+The health check endpoint (/health) returns a small JSON object with hardcoded values.
 
 ```shell
 curl http://localhost:8082/health
@@ -86,10 +85,10 @@ curl http://localhost:8082/health
 
 ```
 
-#### Thing Endpoint
+#### 'Thing' Endpoint
 
-The second endpoint enables you to retrieve a single 'Thing' (/thing/{id}) if you request the id `123456789` there is not 
-a thing stored against that ID and a HTTP 404 - Not Found will be returned.
+The 'Thing' endpoint enables you to retrieve a single 'Thing' (/thing/{id}). If you request the id `123456789` there is not 
+a 'Thing' stored against that ID and an HTTP 404 - Not Found will be returned.
 
 ```shell
 curl http://localhost:8082/thing/123456789
@@ -159,8 +158,12 @@ We have already created an [example Consumer](consumer/health/health.go) for the
 The [code](consumer/health/health.go) is commented to explain what is happening at all key points of execution, spend a 
 few minutes exploring it to familiarise yourself with it before continuing. 
 
-The code assumes that Making the HTTP call and decoding the JSON response is successful because you would not use Pact 
-to test these bits of the code. Handling these errors should be covered by separate unit tests.
+_**Note**: in this example we have created a client as our consumer. In a real word application the consumer would be another
+service. When using Pact creating a share client for all services that consumer an API assumes that all Consumers use the 
+Provider in the same way. This is rarely the case and is not a good use of Pact_
+
+The code assumes that Making the HTTP call and decoding the JSON response is successful because Pact is just for testing 
+the interaction between services. Handling these errors should be covered by separate unit tests.
 
 The [tests](consumer/health/health_test.go) that we used to drive out the implementation cover the expected response 
 from the `/health` endpoint when the service is running and healthy. The tests are commented to explain how to use Pacts 
@@ -267,7 +270,7 @@ The home page of the [Local Pact Broker](http://localhost:9393/) shows a list of
 their status.
 
 When you first load the [Local Pact Broker](http://localhost:9393/) you should see an example Pact. Let's upload the 
-Pact file we created for the Health Checker to the Broker. To does this you can use to command below on the Consumer 
+Pact file we created for the Health Checker to the Broker. To do this you can use to command below on the Consumer 
 Docker container.
 
 ```shell
@@ -277,6 +280,7 @@ make publish-health-pact
 ```shell
 pact-broker publish pacts/health_checker_client-demo_app.json --consumer-app-version $$(uuid) --broker-base-url http://broker:9393
 ```
+_**Note**: the `--consumer-app-version` would usually be the commit hash or tag version. we are using a random UUID here to ensure we do not get clashes_
 
 This will push the Pact File to the Pact Broker, and it should not be visible on the 
 [Pact Broker home page](http://localhost:9393/).
@@ -339,7 +343,7 @@ docker-compose exec producer bash
 We can now look at our [Producer Tests](producer/health_test.go). Take some time to look over the test code, the 
 Provider tests a pretty small there is not much to setup because most information for them to run is in the Pact file.
 
-To run the Producer tests for the `/health` endpoint run the follwing command on the Producer Docker container
+To run the Producer tests for the `/health` endpoint run the following Make target on the Producer Docker container
 
 ```shell
 make test-health
@@ -385,7 +389,7 @@ Now it's your turn!
 ### Create a Client Library (Consumer)
 
 The first task is to [test drive](consumer/thing/thing_test.go) the Creation of an [API client library](consumer/thing/thing.go) 
-for the `/thing/{id}` endpoint of the producer API.
+for the 'Thing' `/thing/{id}` endpoint of the producer API.
 
 The Client should cover the 200 (OK) & 404 (Not Found) cases.
 
@@ -402,7 +406,7 @@ Found and that content in the fields match.
 }
 ```
 
-You can run tests for just the Thing Client using the following Make target 
+You can run tests for just the 'Thing' Client using the following Make target 
 
 ````shell
 make test-thing
@@ -451,7 +455,7 @@ or
 go test -v ./app_test.go
 ```
 
-Now recheck whether the Consumer can be deployed and you can also check that the Producer can be deployed
+Now recheck whether the Consumer can be deployed, and you can also check that the Producer can be deployed
 
 ```shell
 make can-i-deploy-demo-app
@@ -465,13 +469,14 @@ pact-broker can-i-deploy --pacticipant "Demo App" --broker-base-url http://broke
 
 Before you move on and start testing the successful request go back to you Not Found test and add a field that does not 
 exist to you tests. Get the test to pass on the consumer. Push the Pact Contract to the Broker and run the Producer tests.
-Check the result of can I deploy for the Consumer and Producer. _Note: fix the test before you start the successful 
-request testing._
+Check the result of can I deploy for the Consumer and Producer. 
+
+_**Note**: fix the test before you start the successful request testing._
 
 #### Sucessful Request (HTTP 200 - OK)
 
-Start with successful request to the endpoint `/thing/1234`. Rather than creating a test for the entire response straight away
-consider building up the test
+Start with successful request to the endpoint `/thing/1234`. Rather than creating a test for the entire response straight 
+away consider building up the test
 
 First create a test that looks for some Scalar types in the response. The add test to cover the variable array fields.
 Try using the various different ways to creating test content for the Consumer tests:

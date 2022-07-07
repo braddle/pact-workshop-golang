@@ -14,28 +14,38 @@ import (
 
 var pact *dsl.Pact
 
-func setup() {
+const requestID = "123456789-qwerty"
+
+func beforeAllTests() {
 	// Instantiating Pact
 	//
 	// NOTE: If you are running multiple tests again the same Provider create one instance dls.Pact that is used by all tests.
 	pact = &dsl.Pact{
 		Consumer: "Health Checker Client", // The name of the consumer using the API. In this cade out Health Checker Client
-		Provider: "Demo App",              // The name of the Provider we testing against
+		Provider: "Demo App",              // The name of the Provider we testing against (This need to be given to you by the people running the provider)
 		LogLevel: "NONE",
 		PactDir:  "../pacts",
 	}
 }
 
-func TestHealthCheckWithStructPactExamples(t *testing.T) {
-	const requestID = "123456789-qwerty"
+func afterAllTests() {
+	// Tears down the Pact server and produces the Pact file base on the inteactions the Pact Test Server received.
+	//
+	// NOTE: If you are running multiple tests again the same Provider run tear down at the end of the suite and not
+	//	after each testFunc. Running teardown per testFunc will mean you get a pactfile per tests
+	pact.Teardown()
+}
 
+func TestHealthCheckWithStructPactExamples(t *testing.T) {
 	pact.AddInteraction().
 		// Providing the expectations for the Provider to setup
+		// This would link to the Provider State in the Provider tests.
 		Given("The service is up and running").
 		// Describing the request that will be made
 		UponReceiving("A GET request for the services health using Struct with Pact examples").
 		WithRequest(
-			// Configuring the request you expect to make to the Pact Server
+			// Configuring the request you expect to make to the Pact Server.
+			// Your test will fail if these expectations are not meet.
 			dsl.Request{
 				Method: http.MethodGet,
 				Path:   dsl.String("/health"),
@@ -47,6 +57,7 @@ func TestHealthCheckWithStructPactExamples(t *testing.T) {
 		).
 		WillRespondWith(
 			// Configuring the response the Pact Server with response with
+			// This will produce the contract with the provider.
 			dsl.Response{
 				Status: http.StatusOK,
 				Headers: dsl.MapMatcher{
@@ -60,8 +71,8 @@ func TestHealthCheckWithStructPactExamples(t *testing.T) {
 	testFunc := func() error {
 		ctx := context.WithValue(context.Background(), "request-id", requestID)
 
-		// The Pact standalone executables run a testFunc server to make testFunc requests against. It uses a random port to expose
-		// a fake HTTP server to testFunc against base on the configured interactions.
+		// The Pact standalone executables run a testFunc server to make testFunc requests against.
+		//It uses a random port to expose a fake HTTP server to testFunc against base on the configured interactions.
 		hc := health.NewChecker(fmt.Sprintf("http://localhost:%d", pact.Server.Port))
 		hr := hc.Check(ctx) // Make an API call
 
@@ -79,11 +90,11 @@ func TestHealthCheckWithStructPactExamples(t *testing.T) {
 }
 
 func TestHealthCheckWithMapOfKeysAndMatcherValues(t *testing.T) {
-	const requestID = "123456789-qwerty"
-
 	pact.AddInteraction().
-		Given("The service is up and running").                                                      // Providing the expectations for the Provider to setup
-		UponReceiving("A GET request for the services health using map of keys and matcher values"). // Describing the request that will be made
+		// Providing the expectations for the Provider to setup
+		Given("The service is up and running").
+		// Describing the request that will be made
+		UponReceiving("A GET request for the services health using map of keys and matcher values").
 		WithRequest(
 			// Configuring the request you expect to make to the Pact Server
 			dsl.Request{
@@ -134,11 +145,11 @@ func TestHealthCheckWithMapOfKeysAndMatcherValues(t *testing.T) {
 }
 
 func TestHealthCheckWithMapOfKeysAndHardValues(t *testing.T) {
-	const requestID = "123456789-qwerty"
-
 	pact.AddInteraction().
-		Given("The service is up and running").                                       // Providing the expectations for the Provider to setup
-		UponReceiving("A GET request for the services health using hard coded JSON"). // Describing the request that will be made
+		// Providing the expectations for the Provider to beforeAllTests
+		Given("The service is up and running").
+		// Describing the request that will be made
+		UponReceiving("A GET request for the services health using hard coded JSON").
 		WithRequest(
 			// Configuring the request you expect to make to the Pact Server
 			dsl.Request{
@@ -189,11 +200,11 @@ func TestHealthCheckWithMapOfKeysAndHardValues(t *testing.T) {
 }
 
 func TestHealthCheckWithStructWithVariableSet(t *testing.T) {
-	const requestID = "123456789-qwerty"
-
 	pact.AddInteraction().
-		Given("The service is up and running").                                                // Providing the expectations for the Provider to setup
-		UponReceiving("A GET request for the services health using struct with variable set"). // Describing the request that will be made
+		// Providing the expectations for the Provider to beforeAllTests
+		Given("The service is up and running").
+		// Describing the request that will be made
+		UponReceiving("A GET request for the services health using struct with variable set").
 		WithRequest(
 			// Configuring the request you expect to make to the Pact Server
 			dsl.Request{
@@ -242,17 +253,9 @@ func TestHealthCheckWithStructWithVariableSet(t *testing.T) {
 	assert.NoError(t, pact.Verify(testFunc))
 }
 
-func shutdown() {
-	// Tears down the Pact server and produces the Pact file base on the inteactions the Pact Test Server received.
-	//
-	// NOTE: If you are running multiple tests again the same Provider run tear down at the end of the suite and not
-	//	after each testFunc. Running teardown per testFunc will mean you get a pactfile per tests
-	pact.Teardown()
-}
-
 func TestMain(m *testing.M) {
-	setup()
+	beforeAllTests()
 	code := m.Run()
-	shutdown()
+	afterAllTests()
 	os.Exit(code)
 }

@@ -346,13 +346,13 @@ Provider tests a pretty small there is not much to setup because most informatio
 To run the Producer tests for the `/health` endpoint run the following Make target on the Producer Docker container
 
 ```shell
-make test-health
+make test-demo-app
 ```
 
 or
 
 ```shell
-go test -v ./health_test.go
+go test -v ./app_test.go
 ```
 
 Once the tests have run go back to the [Pact Broker](http://localhost:9393) and see how the state of the Pact has been 
@@ -381,6 +381,10 @@ pact-broker can-i-deploy --pacticipant 	"Health Checker Client" --broker-base-ur
 This now returns a zero exit code saying that the Pact is verified
 
 ![Screen shot of a success response from can-i-deploy](docs/successful-can-i-deploy.png)
+
+Now check the results of the pact verification on the [Local Pact Broker](http://localhost:9393/). Be sure to look at 
+the [Demo App Network Graph](http://localhost:9393/pacticipants/Demo%20App/network) showing all services that interact 
+with the Demo App.
 
 ## Task
 
@@ -485,6 +489,10 @@ Try using the various different ways to creating test content for the Consumer t
   - Keys and Values
   - Struct with Values set
 
+Now check the results of the pact verification on the [Local Pact Broker](http://localhost:9393/). Be sure to look at
+the [Demo App Network Graph](http://localhost:9393/pacticipants/Demo%20App/network) showing all services that interact
+with the Demo App. You should now be able to see it communicating with the Health and the Thing client.
+
 ```json
 {
   "id": "987654321",
@@ -522,4 +530,18 @@ Try using the various different ways to creating test content for the Consumer t
     }
   ]
 }
+```
+
+### Shutdown
+
+Once you have completed the workshop you can shutdown the docker containers using the following Make target
+
+```shell
+make stop
+```
+
+or 
+
+```shell
+docker-compose down
 ```

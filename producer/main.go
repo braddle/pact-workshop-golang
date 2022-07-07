@@ -72,7 +72,7 @@ func main() {
 		}
 
 		t := Thing{
-			ID:      "987654321",
+			ID:      id,
 			Name:    "Testing",
 			Integer: 1357,
 			Float:   4.56,

@@ -11,7 +11,7 @@ func TestHealth(t *testing.T) {
 	// Instantiating Pact
 	pact := dsl.Pact{
 		Provider: "DemoApp",
-		LogLevel: "DEBUG",
+		LogLevel: "NONE",
 	}
 
 	// Verify we meet the contract in the Pact file
